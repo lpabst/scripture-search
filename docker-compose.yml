@@ -11,6 +11,8 @@ services:
       - '3306'
     volumes:
       - 'mysql-data:/var/lib/mysql'
+    networks:
+      - data
   api:
     container_name: shop.api
     restart: unless-stopped
@@ -20,6 +22,11 @@ services:
       - db
     ports:
       - 8012:8012
+    networks:
+      - data
+    
+networks:
+  data:
 
 volumes:
   mysql-data:

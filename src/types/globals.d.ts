@@ -1,4 +1,5 @@
-import { Context } from "../../context";
+import { Request } from 'express';
+import { Context } from "../context";
 
 declare global {
   namespace Express {
@@ -9,3 +10,5 @@ declare global {
     }
   }
 }
+
+export {};

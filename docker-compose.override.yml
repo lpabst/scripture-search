@@ -14,5 +14,11 @@ services:
     env_file: .env
     environment:
       - PORT=8012
+      - DB_PORT=3306
+      - DB_USERNAME=username
+      - DB_PASSWORD=password
+      - DB_HOST=db
+      - DB_DATABASE=db
+      - TYPEORM_SYNCHRONIZE=true
     volumes:
       - ./src:/app/src
