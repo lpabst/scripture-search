@@ -27,12 +27,16 @@ export default class EmailVerificationTokenRepo {
     return token;
   }
 
-  async getEmailVerificationTokenById(
-    id: string
+  async getDbRecordForToken(
+    token: string
   ): Promise<EmailVerificationToken | null> {
-    if (!this.cache[id]) {
-      this.cache[id] = await this.repo.findOneBy({ id });
+    if (!this.cache[token]) {
+      this.cache[token] = await this.repo.findOneBy({ token });
     }
-    return this.cache[id];
+    return this.cache[token];
+  }
+
+  async deleteDbRecordForToken(token: string): Promise<void> {
+    await this.repo.delete({ token });
   }
 }

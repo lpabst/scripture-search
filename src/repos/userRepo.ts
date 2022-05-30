@@ -1,7 +1,8 @@
 import { Context } from "../context";
 import { AppDataSource } from "../data/dataSource";
 import User from "../data/entities/User";
-import { CreateUserDTO } from "../types/dtos/CreateUserDTO";
+import { CreateUserDTO } from "../types/repos/CreateUserDTO";
+import { UpdateUserDTO } from "../types/repos/UpdateUserDTO";
 import { Repository } from "typeorm";
 import { randomId } from "../utils/helpers";
 
@@ -40,5 +41,9 @@ export default class UserRepo {
       this.cache[email] = await this.repo.findOneBy({ email });
     }
     return this.cache[email];
+  }
+
+  async updateUser(id: string, updates: UpdateUserDTO) {
+    await this.repo.update(id, updates);
   }
 }

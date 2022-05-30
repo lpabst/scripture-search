@@ -1,5 +1,5 @@
 import { Context } from "../context";
-import { CreateUserDTO } from "../types/dtos/CreateUserDTO";
+import { UserInfoInput } from "../types/services/UserInfoInput";
 import bcrypt from "bcrypt";
 import { ResourceConflictError } from "../middleware/errorHandler";
 
@@ -10,7 +10,7 @@ export default class UserService {
     this.ctx = ctx;
   }
 
-  async createUser(userInfo: CreateUserDTO): Promise<void> {
+  async createUser(userInfo: UserInfoInput): Promise<void> {
     await this.validateEmailNotInUse(userInfo.email);
     const passwordHash = await bcrypt.hash(userInfo.password!, 10);
     const userId = await this.ctx.repos.user.createUser({
@@ -30,6 +30,14 @@ export default class UserService {
     );
   }
 
+  async getUserById(id: string) {
+    return this.ctx.repos.user.getUserById(id);
+  }
+
+  async getUserByEmail(email: string) {
+    return this.ctx.repos.user.getUserById(email);
+  }
+
   async validateEmailNotInUse(email: string): Promise<void> {
     const emailInUse = await this.ctx.repos.user.getUserByEmail(email);
     if (!!emailInUse) {
@@ -37,11 +45,26 @@ export default class UserService {
     }
   }
 
-  async getUserById(id: string) {
-    return this.ctx.repos.user.getUserById(id);
-  }
+  async verifyUserEmail(emailVerificationToken: string): Promise<boolean> {
+    const tokenDbRecord =
+      await this.ctx.repos.emailVerificationToken.getDbRecordForToken(
+        emailVerificationToken
+      );
 
-  async getUserByEmail(email: string) {
-    return this.ctx.repos.user.getUserById(email);
+    if (!tokenDbRecord) {
+      console.log("Invalid email verification token attempted");
+      return false;
+    }
+
+    await Promise.all([
+      this.ctx.repos.user.updateUser(tokenDbRecord.userId, {
+        emailVerified: true,
+      }),
+      this.ctx.repos.emailVerificationToken.deleteDbRecordForToken(
+        emailVerificationToken
+      ),
+    ]);
+
+    return true;
   }
 }

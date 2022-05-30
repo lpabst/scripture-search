@@ -8,6 +8,8 @@ userController.post(
   celebrate({
     body: Joi.object().keys({
       email: Joi.string().required(),
+      firstName: Joi.string().required(),
+      lastName: Joi.string().required(),
       password: Joi.string().required(),
     }),
   }),
@@ -44,16 +46,27 @@ userController.get(
 );
 
 userController.get(
-  "/email/verify",
+  "/email/verify/:emailVerificationToken",
   celebrate({
     params: Joi.object().keys({
-      authorization: Joi.string().required(),
+      emailVerificationToken: Joi.string().required(),
     }),
   }),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      // verify email with token here
-      // return res.status(200).send(user);
+      const emailVerifiedSuccessfully =
+        await req.ctx?.services.user.verifyUserEmail(
+          req.params.emailVerificationToken
+        );
+
+      let redirectQueryParams = "";
+      if (emailVerifiedSuccessfully) {
+        redirectQueryParams = `?emailVerified=true`;
+      }
+      const redirectUrl = `${process.env.PUBLIC_URL}/login${redirectQueryParams}`;
+      console.log(redirectUrl);
+
+      return res.status(302).redirect(redirectUrl);
     } catch (e) {
       next(e);
     }

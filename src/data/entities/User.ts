@@ -2,7 +2,7 @@ import { Entity, Column, PrimaryColumn, Index } from "typeorm";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { ForbiddenError } from "../../middleware/errorHandler";
-import { JwtTokens } from "../../types/models/JwtTokens";
+import { JwtTokens } from "../../types/services/JwtTokens";
 import BaseEntity from "./BaseEntity";
 
 @Entity()

@@ -21,5 +21,6 @@ services:
       - DB_DATABASE=db
       - TYPEORM_SYNCHRONIZE=true
       - JWT_SECRET=frd7qTn5HlJbWRFq9ltBGBveF2efY4IGEkgcMzEAB38jqRAaoJWLGDkKQxATeYlh
+      - PUBLIC_URL=localhost:3000
     volumes:
       - ./src:/app/src

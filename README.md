@@ -8,7 +8,7 @@
 
 ## TODO:
 
-- login ability
+- send email for email verification
 - create normal account and/or shop
 - create shop for existing account
 - list products on shop
