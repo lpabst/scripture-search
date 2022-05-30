@@ -1,5 +1,5 @@
 import { Request } from 'express';
-import { Context } from "../context";
+import { Context } from "../utils/context";
 
 declare global {
   namespace Express {

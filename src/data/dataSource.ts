@@ -1,4 +1,5 @@
 import { DataSource, DataSourceOptions } from 'typeorm';
+import User from './entities/User';
 
 const dataSourceOptions: DataSourceOptions = {
   type: "mysql",
@@ -8,8 +9,9 @@ const dataSourceOptions: DataSourceOptions = {
   password: process.env.DB_PASSWORD,
   database: process.env.DB_DATABASE,
   synchronize: process.env.TYPEORM_SYNCHRONIZE === 'true',
-  logging: true,
-  entities: ["./entities"],
+  // set logging to true to see what typeorm is doing under the hood
+  logging: false,
+  entities: [User],
   subscribers: [],
   migrations: [],
 };

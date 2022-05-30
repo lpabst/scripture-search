@@ -4,25 +4,25 @@ export class Repositories {
   constructor(ctx: Context) {
     this.ctx = ctx;
   }
-}export 
+} 
 
-class Services {
+export class Services {
   ctx: Context;
   
   constructor(ctx: Context) {
     this.ctx = ctx;
   }
-}export 
+} 
 
-class Controllers {
+export class Controllers {
   ctx: Context;
 
   constructor(ctx: Context) {
     this.ctx = ctx;
   }
-}export 
+} 
 
-class Context {
+export class Context {
   repos: Repositories;
   services: Services;
   controllers: Controllers;
