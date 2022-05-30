@@ -1,8 +1,8 @@
-import {Entity, Column, PrimaryColumn} from "typeorm";
+import {Entity, Column, PrimaryColumn, Index} from "typeorm";
 
 @Entity()
 export default class User {
-    @PrimaryColumn()
+    @PrimaryColumn({ type: "varchar", length: 32 })
     id: string;
 
     @Column({ type: "varchar", length: 64 })
@@ -12,6 +12,7 @@ export default class User {
     lastName: string;
 
     @Column({ type: "varchar", length: 256 })
+    @Index({ unique: true })
     email: string;
 
     @Column({ type: "varchar", length: 256 })
