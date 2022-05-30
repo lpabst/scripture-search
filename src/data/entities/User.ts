@@ -2,8 +2,7 @@ import { Entity, Column, PrimaryColumn, Index } from "typeorm";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { ForbiddenError } from "../../middleware/errorHandler";
-import { JwtTokens } from "../../types/JwtTokens";
-import { randomString } from "../../utils/helpers";
+import { JwtTokens } from "../../types/models/JwtTokens";
 import BaseEntity from "./BaseEntity";
 
 @Entity()
@@ -50,7 +49,6 @@ export default class User extends BaseEntity {
     const jwtTokens = {
       accessToken: this.generateAccessToken(),
       idToken: this.generateIdToken(),
-      refreshToken: randomString(32),
     };
     return jwtTokens;
   }

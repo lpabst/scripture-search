@@ -2,8 +2,7 @@ import { Context } from "../context";
 import { AppDataSource } from "../data/dataSource";
 import RefreshToken from "../data/entities/RefreshToken";
 import { Repository } from "typeorm";
-import { randomId } from "../utils/helpers";
-import { CreateRefreshTokenDTO } from "../types/dtos/CreateRefreshTokenDTO";
+import { randomId, randomString } from "../utils/helpers";
 
 export default class RefreshTokenRepo {
   ctx: Context;
@@ -16,10 +15,8 @@ export default class RefreshTokenRepo {
     this.cache = {};
   }
 
-  async createRefreshToken({
-    userId,
-    refreshToken,
-  }: CreateRefreshTokenDTO): Promise<void> {
+  async createRefreshToken(userId: string): Promise<string> {
+    const refreshToken = randomString(32);
     const expirationDate = new Date();
     expirationDate.setTime(expirationDate.getTime() + 60 * 60 * 1000);
 
@@ -29,6 +26,8 @@ export default class RefreshTokenRepo {
       token: refreshToken,
       expires: expirationDate,
     });
+
+    return refreshToken;
   }
 
   async getRefreshTokenById(id: string): Promise<RefreshToken | null> {

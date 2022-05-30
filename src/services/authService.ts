@@ -1,7 +1,7 @@
 import { Context } from "../context";
 import { ForbiddenError } from "../middleware/errorHandler";
 import { LoginDTO } from "../types/dtos/LoginDTO";
-import { JwtTokens } from "../types/JwtTokens";
+import { UserTokens } from "../types/models/UserTokens";
 import { promiseTimeout, randomNumber } from "../utils/helpers";
 
 export default class AuthService {
@@ -11,16 +11,18 @@ export default class AuthService {
     this.ctx = ctx;
   }
 
-  async login({ email, password }: LoginDTO): Promise<JwtTokens> {
+  async login({ email, password }: LoginDTO): Promise<UserTokens> {
     const user = await this.getUserOrThrowForbiddenError(email);
     await user.throwErrorIfEmailNotVerified();
     await user.validatePassword(password);
     const jwtTokens = user.generateJwtTokens();
-    await this.ctx.repos.refreshToken.createRefreshToken({
-      userId: user.id,
-      refreshToken: jwtTokens.refreshToken,
-    });
-    return jwtTokens;
+    const refreshToken = await this.ctx.repos.refreshToken.createRefreshToken(
+      user.id
+    );
+    return {
+      ...jwtTokens,
+      refreshToken,
+    };
   }
 
   async getUserOrThrowForbiddenError(email: string) {
