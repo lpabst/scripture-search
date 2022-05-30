@@ -1,0 +1,26 @@
+version: "3.7"
+
+services:
+  db:
+    container_name: shop.db
+    image: mysql:5.7.12
+    restart: unless-stopped    
+    ports:
+      - '3306:3306'
+    expose:
+      - '3306'
+    volumes:
+      - 'mysql-data:/var/lib/mysql'
+  api:
+    container_name: shop.api
+    restart: unless-stopped
+    external_links:
+      - db
+    depends_on:
+      - db
+    ports:
+      - 8012:8012
+
+volumes:
+  mysql-data:
+    driver: local

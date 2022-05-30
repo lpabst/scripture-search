@@ -1,0 +1,33 @@
+{
+  "name": "shop-platform",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start:dev": "nodemon src/index.ts",
+    "start": "node build/index.js",
+    "build": "tsc -p ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lpabst/shop-platform.git"
+  },
+  "author": "loren",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lpabst/shop-platform/issues"
+  },
+  "homepage": "https://github.com/lpabst/shop-platform#readme",
+  "dependencies": {
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.13",
+    "@types/node": "^17.0.36",
+    "nodemon": "^2.0.16",
+    "ts-node": "^10.8.0",
+    "typescript": "^4.7.2"
+  }
+}
