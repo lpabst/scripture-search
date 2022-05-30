@@ -2,6 +2,7 @@ import 'reflect-metadata';
 import express from 'express';
 import dotenv from 'dotenv';
 dotenv.config();
+import { errors as inputValidationErrors } from 'celebrate';
 import router from './router';
 import addContext from './middleware/addContext';
 import { AppDataSource } from './data/dataSource';
@@ -18,6 +19,7 @@ async function startServer() {
     app.use(express.json());
     app.use(addContext);
     app.use(router);
+    app.use(inputValidationErrors());
     app.use(errorHandler);
 
     const PORT = process.env.PORT || 8012;

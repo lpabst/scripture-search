@@ -1,11 +1,11 @@
 version: "3.8"
 services:
-  db:    
+  db:
     environment:
-      MYSQL_DATABASE: 'db'   
-      MYSQL_USER: 'username'
-      MYSQL_PASSWORD: 'password'      
-      MYSQL_ROOT_PASSWORD: 'password'
+      MYSQL_DATABASE: "db"
+      MYSQL_USER: "username"
+      MYSQL_PASSWORD: "password"
+      MYSQL_ROOT_PASSWORD: "password"
   api:
     build:
       context: .
@@ -20,5 +20,6 @@ services:
       - DB_HOST=db
       - DB_DATABASE=db
       - TYPEORM_SYNCHRONIZE=true
+      - JWT_SECRET=frd7qTn5HlJbWRFq9ltBGBveF2efY4IGEkgcMzEAB38jqRAaoJWLGDkKQxATeYlh
     volumes:
       - ./src:/app/src

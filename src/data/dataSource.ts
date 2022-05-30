@@ -1,5 +1,7 @@
-import { DataSource, DataSourceOptions } from 'typeorm';
-import User from './entities/User';
+import { DataSource, DataSourceOptions } from "typeorm";
+import User from "./entities/User";
+import RefreshToken from "./entities/RefreshToken";
+import EmailVerificationToken from "./entities/EmailVerificationToken";
 
 const dataSourceOptions: DataSourceOptions = {
   type: "mysql",
@@ -8,12 +10,12 @@ const dataSourceOptions: DataSourceOptions = {
   username: process.env.DB_USERNAME,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_DATABASE,
-  synchronize: process.env.TYPEORM_SYNCHRONIZE === 'true',
+  synchronize: process.env.TYPEORM_SYNCHRONIZE === "true",
   // set logging to true to see what typeorm is doing under the hood
   logging: false,
-  entities: [User],
+  entities: [User, RefreshToken, EmailVerificationToken],
   subscribers: [],
   migrations: [],
 };
 
-export const AppDataSource = new DataSource(dataSourceOptions)
+export const AppDataSource = new DataSource(dataSourceOptions);
