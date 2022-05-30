@@ -9,7 +9,10 @@ services:
   api:
     build:
       context: .
-      dockerfile: Dockerfile.dev
+      target: "dev"
+    image: shop.api
     env_file: .env
     environment:
       - PORT=8012
+    volumes:
+      - ./src:/app/src
