@@ -15,7 +15,6 @@ export default function errorHandler (err: any, req: Request, res: Response, nex
 
 export function BadRequestError(msg: string = '') {
   return {
-    isCustomError: true,
     msg: msg || 'Bad Request',
     statusCode: 400,
   }
@@ -23,7 +22,6 @@ export function BadRequestError(msg: string = '') {
 
 export function ResourceConflictError(msg: string = '') {
   return {
-    isCustomError: true,
     msg: msg || 'Resource Conflict',
     statusCode: 409,
   }
