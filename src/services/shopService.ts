@@ -1,10 +1,12 @@
 import { Context } from "../context";
+import Product from "../data/entities/Product";
 import Shop from "../data/entities/Shop";
 import {
   NotFoundError,
   ResourceConflictError,
 } from "../middleware/errorHandler";
 import { CreateShopDTO } from "../types/repos/CreateShopDTO";
+import { QueryPaginationParams } from "../types/repos/QueryPaginationParams";
 import { UpdateShopDTO } from "../types/repos/UpdateShopDTO";
 
 export default class ShopService {
@@ -59,5 +61,34 @@ export default class ShopService {
     updates: UpdateShopDTO
   ): Promise<void> {
     return this.ctx.repos.shop.updateShopByUserId(userId, updates);
+  }
+
+  async queryProductsForShop(
+    shopId: string,
+    queryPaginationParam: QueryPaginationParams
+  ): Promise<Partial<Product>[]> {
+    return this.ctx.repos.product.queryProductsByShopId(
+      shopId,
+      queryPaginationParam
+    );
+  }
+
+  async queryProductsPublicInfoForShop(
+    shopId: string,
+    queryPaginationParam: QueryPaginationParams
+  ): Promise<Partial<Product>[]> {
+    const products = await this.ctx.repos.product.queryProductsByShopId(
+      shopId,
+      queryPaginationParam
+    );
+    return products.map((product) => ({
+      id: product.id,
+      name: product.name,
+      description: product.description,
+      price: product.price,
+      weightOunces: product.weightOunces,
+      createdAt: product.createdAt,
+      // TODO: image urls?
+    }));
   }
 }

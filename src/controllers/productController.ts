@@ -67,4 +67,32 @@ productController.patch(
   }
 );
 
+// get public info of specific product (requesting user doesn't need to be signed in to use this)
+productController.get(
+  "/product/:productId",
+  celebrate({
+    params: Joi.object().keys({
+      productId: Joi.string().required(),
+    }),
+  }),
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const product = await req.ctx.services.product.getProductByIdOrFail(
+        req.params.productId
+      );
+      return res.status(200).send({
+        id: product.id,
+        name: Joi.string(),
+        description: Joi.string(),
+        price: Joi.number(),
+        weightOunces: Joi.number(),
+        // TODO: need to figure out images for product listings. Probably another table with 1-many relationship to a product, then grab all of those and send them back here. We'll also need endpoints to add images to a product listing, and somewhere to store those images
+        imageUrls: [],
+      });
+    } catch (e) {
+      next(e);
+    }
+  }
+);
+
 export default productController;

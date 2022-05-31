@@ -6,6 +6,8 @@ import {
   ResourceConflictError,
 } from "../middleware/errorHandler";
 import User from "../data/entities/User";
+import Product from "../data/entities/Product";
+import { QueryPaginationParams } from "../types/repos/QueryPaginationParams";
 
 export default class UserService {
   ctx: Context;
@@ -82,5 +84,16 @@ export default class UserService {
     ]);
 
     return true;
+  }
+
+  async queryProductsForUsersShop(
+    userId: string,
+    queryPaginationParams: QueryPaginationParams
+  ): Promise<Product[]> {
+    const products = await this.ctx.repos.product.queryProductsByUserId(
+      userId,
+      queryPaginationParams
+    );
+    return products;
   }
 }

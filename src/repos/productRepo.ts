@@ -5,6 +5,7 @@ import { CreateProductDTO } from "../types/repos/CreateProductDTO";
 import { UpdateProductDTO } from "../types/repos/UpdateProductDTO";
 import { Repository } from "typeorm";
 import { randomId } from "../utils/randomization";
+import { QueryPaginationParams } from "../types/repos/QueryPaginationParams";
 
 export default class ProductRepo {
   ctx: Context;
@@ -45,13 +46,29 @@ export default class ProductRepo {
     await this.repo.update({ id }, updates);
   }
 
-  async queryProductsByUserId(userId: string): Promise<Product[]> {
-    const products = await this.repo.findBy({ userId });
+  async queryProductsByUserId(
+    userId: string,
+    { limit, offset, orderBy, orderDir }: QueryPaginationParams
+  ): Promise<Product[]> {
+    const products = await this.repo.find({
+      where: { userId },
+      order: { [orderBy]: orderDir },
+      take: limit,
+      skip: offset,
+    });
     return products;
   }
 
-  async queryProductsByShopId(shopId: string): Promise<Product[]> {
-    const products = await this.repo.findBy({ shopId });
+  async queryProductsByShopId(
+    shopId: string,
+    { limit, offset, orderBy, orderDir }: QueryPaginationParams
+  ): Promise<Product[]> {
+    const products = await this.repo.find({
+      where: { shopId },
+      order: { [orderBy]: orderDir },
+      take: limit,
+      skip: offset,
+    });
     return products;
   }
 }
