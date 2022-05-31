@@ -26,6 +26,18 @@ export default class User extends BaseEntity {
   @Column({ type: "boolean", default: false })
   emailVerified: boolean;
 
+  @Column({ type: "varchar", length: 128, nullable: true })
+  streetAddress: string;
+
+  @Column({ type: "varchar", length: 64, nullable: true })
+  city: string;
+
+  @Column({ type: "varchar", length: 32, nullable: true })
+  state: string;
+
+  @Column({ type: "varchar", length: 16, nullable: true })
+  zip: string;
+
   async validatePassword(inputPassword: string): Promise<void> {
     const passwordIsMatch = await bcrypt.compare(
       inputPassword,

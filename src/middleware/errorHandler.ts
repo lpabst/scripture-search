@@ -52,3 +52,10 @@ export function ResourceConflictError(msg: string = "") {
     statusCode: 409,
   };
 }
+
+export function ServerError(msg: string = "") {
+  return {
+    msg: msg || "Server Error",
+    statusCode: 500,
+  };
+}

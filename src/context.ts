@@ -3,6 +3,7 @@ import RefreshTokenRepo from "./repos/refreshTokenRepo";
 import EmailVerificationTokenRepo from "./repos/emailVerificationTokenRepo";
 import UserService from "./services/userService";
 import AuthService from "./services/authService";
+import NotificationService from "./services/notificationService";
 
 export class Repos {
   ctx: Context;
@@ -22,11 +23,13 @@ export class Services {
   ctx: Context;
   user: UserService;
   auth: AuthService;
+  notification: NotificationService;
 
   constructor(ctx: Context) {
     this.ctx = ctx;
     this.user = new UserService(ctx);
     this.auth = new AuthService(ctx);
+    this.notification = new NotificationService(ctx);
   }
 }
 

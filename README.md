@@ -2,13 +2,12 @@
 
 ## setup and development
 
-- create a `.env` file in the root of the project
+- create a `.env` file in the root of the project. You'll need to populate it using the `.env.example` as a guide
 - dev env vars are listed in the `docker-compose.override.yml` file
 - run `docker-compose up -d` to spin things up
 
 ## TODO:
 
-- send email for email verification
 - create normal account and/or shop
 - create shop for existing account
 - list products on shop

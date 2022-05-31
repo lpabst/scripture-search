@@ -14,7 +14,9 @@ export default class AuthService {
   async login({ email, password }: LoginDTO): Promise<UserTokens> {
     const user = await this.getUserOrThrowForbiddenError(email);
     await user.throwErrorIfEmailNotVerified();
+    let st = Date.now();
     await user.validatePassword(password);
+    console.log(st - Date.now());
     const jwtTokens = user.generateJwtTokens();
     const refreshToken = await this.ctx.repos.refreshToken.createRefreshToken(
       user.id
@@ -30,7 +32,7 @@ export default class AuthService {
     if (!user) {
       // wait for a small timeout to simulate the hash algorithm so hackers don't know whether the email or password was wrong
       console.log(`User does not exist: ${email}`);
-      const fakeHashDelay = randomNumber(50, 90);
+      const fakeHashDelay = randomNumber(60, 105);
       await promiseTimeout(fakeHashDelay);
       throw ForbiddenError("Invalid email or password");
     }

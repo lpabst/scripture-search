@@ -1,5 +1,6 @@
 import express, { Request, Response, NextFunction } from "express";
 import { celebrate, Joi } from "celebrate";
+import validateEmailFormatInBody from "../middleware/validateEmailFormatInBody";
 
 const authController = express.Router();
 
@@ -11,6 +12,7 @@ authController.post(
       password: Joi.string().required(),
     }),
   }),
+  validateEmailFormatInBody,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const jwtTokens = await req.ctx?.services.auth.login({

@@ -24,9 +24,13 @@ export default class UserService {
         userId
       );
 
-    // TODO: send an email verification email out with a link with the EmailVerificationToken in it
+    await this.ctx.services.notification.sendEmailVerificationEmail(
+      userInfo.email
+    );
+
+    // TODO: see if the sendgrid emails ever start working? If so, remove this console log
     console.log(
-      `Until we send out an email with the verificaiton token in it, we'll have to verify it manually in the api. Here is the token: ${emailVerificationToken}`
+      `So far my sendgrid emails aren't coming through, so for now we'll have to verify it manually in the api. Here is the token: ${emailVerificationToken}`
     );
   }
 

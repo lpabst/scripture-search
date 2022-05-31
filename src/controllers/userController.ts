@@ -1,5 +1,6 @@
 import { celebrate, Joi } from "celebrate";
 import express, { Request, Response, NextFunction } from "express";
+import validateEmailFormatInBody from "../middleware/validateEmailFormatInBody";
 
 const userController = express.Router();
 
@@ -13,6 +14,7 @@ userController.post(
       password: Joi.string().required(),
     }),
   }),
+  validateEmailFormatInBody,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       await req.ctx!.services.user.createUser({
