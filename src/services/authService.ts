@@ -2,7 +2,8 @@ import { Context } from "../context";
 import { ForbiddenError } from "../middleware/errorHandler";
 import { LoginDTO } from "../types/repos/LoginDTO";
 import { UserTokens } from "../types/services/UserTokens";
-import { promiseTimeout, randomNumber } from "../utils/helpers";
+import { promiseTimeout } from "../utils/helpers";
+import { randomNumber } from "../utils/randomization";
 
 export default class AuthService {
   ctx: Context;

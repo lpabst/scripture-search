@@ -5,6 +5,7 @@ import {
   ResourceConflictError,
 } from "../middleware/errorHandler";
 import { CreateShopDTO } from "../types/repos/CreateShopDTO";
+import { UpdateShopDTO } from "../types/repos/UpdateShopDTO";
 
 export default class ShopService {
   ctx: Context;
@@ -50,5 +51,12 @@ export default class ShopService {
       throw NotFoundError(`No shop found for userId ${userId}`);
     }
     return shop;
+  }
+
+  async updateShopByUserId(
+    userId: string,
+    updates: UpdateShopDTO
+  ): Promise<void> {
+    return this.ctx.repos.shop.updateShopByUserId(userId, updates);
   }
 }

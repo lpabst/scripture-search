@@ -1,32 +1,4 @@
-function getRandomStringFromCharacters(length: number, characters: string) {
-  let str = "";
-  for (let i = 0; i < length; i++) {
-    const randomIndex = randomNumber(0, characters.length - 1);
-    str += characters.charAt(randomIndex);
-  }
-
-  return str;
-}
-
-export function randomString(length: number) {
-  const characters =
-    "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  return getRandomStringFromCharacters(length, characters);
-}
-
-export function randomNumberAsString(length: number) {
-  const characters = "0123456789";
-  return getRandomStringFromCharacters(length, characters);
-}
-
-export function randomNumber(min: number, max: number) {
-  const range = max - min;
-  return Math.floor(Math.random() * range) + min;
-}
-
-export function randomId() {
-  return randomString(16);
-}
+import { UpdateShopDTO } from "../types/repos/UpdateShopDTO";
 
 export async function promiseTimeout(msDelay: number) {
   return new Promise((resolve) => {
@@ -34,10 +6,25 @@ export async function promiseTimeout(msDelay: number) {
   });
 }
 
-export function isValidEmailFormat(email: string) {
-  return email
-    .toLowerCase()
-    .match(
-      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-    );
+export function getShopUpdatesFromRequestBody(requestBody: any): UpdateShopDTO {
+  const shopUpdates: UpdateShopDTO = {};
+
+  // only include updates that have a value provided so we don't override existing values with null data
+  if (requestBody.name !== undefined) {
+    shopUpdates.name = requestBody.name;
+  }
+  if (requestBody.description !== undefined) {
+    shopUpdates.description = requestBody.description;
+  }
+  if (requestBody.websiteUrl !== undefined) {
+    shopUpdates.websiteUrl = requestBody.websiteUrl;
+  }
+  if (requestBody.ACHRoutingNumber !== undefined) {
+    shopUpdates.ACHRoutingNumber = requestBody.ACHRoutingNumber;
+  }
+  if (requestBody.ACHAccountNumber !== undefined) {
+    shopUpdates.ACHAccountNumber = requestBody.ACHAccountNumber;
+  }
+
+  return shopUpdates;
 }

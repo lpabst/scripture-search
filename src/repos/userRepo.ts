@@ -4,7 +4,7 @@ import User from "../data/entities/User";
 import { CreateUserDTO } from "../types/repos/CreateUserDTO";
 import { UpdateUserDTO } from "../types/repos/UpdateUserDTO";
 import { Repository } from "typeorm";
-import { randomId } from "../utils/helpers";
+import { randomId } from "../utils/randomization";
 
 export default class UserRepo {
   ctx: Context;

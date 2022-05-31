@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { isValidEmailFormat } from "../utils/helpers";
+import { isValidEmailFormat } from "../utils/regex";
 import { BadRequestError } from "./errorHandler";
 
 export default function validateEmailFormatInBody(

@@ -2,7 +2,7 @@ import { Context } from "../context";
 import { AppDataSource } from "../data/dataSource";
 import RefreshToken from "../data/entities/RefreshToken";
 import { Repository } from "typeorm";
-import { randomId, randomString } from "../utils/helpers";
+import { randomId, randomString } from "../utils/randomization";
 
 export default class RefreshTokenRepo {
   ctx: Context;

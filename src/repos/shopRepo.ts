@@ -4,7 +4,7 @@ import Shop from "../data/entities/Shop";
 import { CreateShopDTO } from "../types/repos/CreateShopDTO";
 import { UpdateShopDTO } from "../types/repos/UpdateShopDTO";
 import { Repository } from "typeorm";
-import { randomId } from "../utils/helpers";
+import { randomId } from "../utils/randomization";
 
 export default class ShopRepo {
   ctx: Context;
@@ -48,7 +48,10 @@ export default class ShopRepo {
     return shop;
   }
 
-  async updateShop(id: string, updates: UpdateShopDTO) {
-    await this.repo.update(id, updates);
+  async updateShopByUserId(
+    userId: string,
+    updates: UpdateShopDTO
+  ): Promise<void> {
+    await this.repo.update({ userId }, updates);
   }
 }

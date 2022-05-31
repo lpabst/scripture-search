@@ -1,6 +1,7 @@
 import { celebrate, Joi } from "celebrate";
 import express, { Request, Response, NextFunction } from "express";
 import validateAccessToken from "../middleware/validateAccessToken";
+import { getShopUpdatesFromRequestBody } from "../utils/helpers";
 
 const shopController = express.Router();
 
@@ -73,6 +74,30 @@ shopController.get(
         websiteUrl: shop.websiteUrl,
         createdAt: shop.createdAt,
       });
+    } catch (e) {
+      next(e);
+    }
+  }
+);
+
+// update shop for signed in user
+shopController.patch(
+  "/shop",
+  celebrate({
+    body: Joi.object().keys({
+      name: Joi.string(),
+      description: Joi.string(),
+      websiteUrl: Joi.string(),
+      ACHRoutingNumber: Joi.string(),
+      ACHAccountNumber: Joi.string(),
+    }),
+  }),
+  validateAccessToken,
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const shopUpdates = getShopUpdatesFromRequestBody(req.body);
+      await req.ctx.services.shop.updateShopByUserId(req.userId!, shopUpdates);
+      return res.sendStatus(204);
     } catch (e) {
       next(e);
     }
