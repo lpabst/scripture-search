@@ -28,6 +28,6 @@ export default class Product extends BaseEntity {
   @Column("decimal", { precision: 15, scale: 2 })
   weightOunces: string;
 
-  @Column({ type: "varchar", length: 128, nullable: true })
+  @Column({ type: "varchar", length: 512, nullable: true })
   tags: string;
 }
