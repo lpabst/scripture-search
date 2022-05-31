@@ -3,11 +3,13 @@ import RefreshTokenRepo from "./repos/refreshTokenRepo";
 import EmailVerificationTokenRepo from "./repos/emailVerificationTokenRepo";
 import ShopRepo from "./repos/shopRepo";
 import ProductRepo from "./repos/productRepo";
+import SearchRepo from "./repos/searchRepo";
 import UserService from "./services/userService";
 import AuthService from "./services/authService";
 import NotificationService from "./services/notificationService";
 import ShopService from "./services/shopService";
 import ProductService from "./services/productService";
+import SearchService from "./services/searchService";
 
 export class Repos {
   ctx: Context;
@@ -16,6 +18,7 @@ export class Repos {
   emailVerificationToken: EmailVerificationTokenRepo;
   shop: ShopRepo;
   product: ProductRepo;
+  search: SearchRepo;
 
   constructor(ctx: Context) {
     this.ctx = ctx;
@@ -24,6 +27,7 @@ export class Repos {
     this.emailVerificationToken = new EmailVerificationTokenRepo(ctx);
     this.shop = new ShopRepo(ctx);
     this.product = new ProductRepo(ctx);
+    this.search = new SearchRepo(ctx);
   }
 }
 
@@ -34,6 +38,7 @@ export class Services {
   notification: NotificationService;
   shop: ShopService;
   product: ProductService;
+  search: SearchService;
 
   constructor(ctx: Context) {
     this.ctx = ctx;
@@ -42,6 +47,7 @@ export class Services {
     this.notification = new NotificationService(ctx);
     this.shop = new ShopService(ctx);
     this.product = new ProductService(ctx);
+    this.search = new SearchService(ctx);
   }
 }
 

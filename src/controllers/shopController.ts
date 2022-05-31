@@ -1,7 +1,7 @@
 import { celebrate, Joi } from "celebrate";
 import express, { Request, Response, NextFunction } from "express";
 import validateAccessToken from "../middleware/validateAccessToken";
-import { getPaginationParamsFromReqQuery } from "../utils/helpers";
+import { getSqlPaginationParamsFromReqQuery } from "../utils/helpers";
 import { getShopUpdatesFromRequestBody } from "../utils/patchUpdates";
 import { ProductOrderByColumns } from "../types/enums/ProductOrderByColumns";
 import { OrderDir } from "../types/enums/OrderDir";
@@ -133,7 +133,9 @@ shopController.get(
   validateAccessToken,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const queryPaginationParams = getPaginationParamsFromReqQuery(req.query);
+      const queryPaginationParams = getSqlPaginationParamsFromReqQuery(
+        req.query
+      );
       const productsForShop =
         await req.ctx.services.user.queryProductsForUsersShop(
           req.userId!,
@@ -158,7 +160,9 @@ shopController.get(
   }),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const queryPaginationParams = getPaginationParamsFromReqQuery(req.query);
+      const queryPaginationParams = getSqlPaginationParamsFromReqQuery(
+        req.query
+      );
       const productsForShop =
         await req.ctx.services.shop.queryProductsPublicInfoForShop(
           req.params.shopId,

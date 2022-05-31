@@ -23,6 +23,10 @@ export default class ProductService {
       ...productInfo,
       shopId: shop.id,
     });
+    await this.ctx.services.search.indexProduct({
+      id: product.id,
+      name: productInfo.name,
+    });
 
     return product;
   }

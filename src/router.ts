@@ -3,6 +3,7 @@ import userController from "./controllers/userController";
 import authController from "./controllers/authController";
 import shopController from "./controllers/shopController";
 import productController from "./controllers/productController";
+import searchController from "./controllers/searchController";
 
 const router = express.Router();
 
@@ -14,5 +15,6 @@ router.use(userController);
 router.use(authController);
 router.use(shopController);
 router.use(productController);
+router.use(searchController);
 
 export default router;

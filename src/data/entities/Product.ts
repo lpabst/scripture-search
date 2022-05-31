@@ -16,10 +16,10 @@ export default class Product extends BaseEntity {
   @Column({ type: "varchar", length: 32 })
   shopId: string;
 
-  @Column({ type: "varchar", length: 512 })
+  @Column({ type: "varchar", length: 128 })
   name: string;
 
-  @Column({ type: "varchar", length: 8192 })
+  @Column({ type: "varchar", length: 4096 })
   description: string;
 
   @Column("decimal", { precision: 15, scale: 2 })

@@ -1,4 +1,5 @@
 version: "3.8"
+
 services:
   db:
     environment:
@@ -6,6 +7,7 @@ services:
       MYSQL_USER: "username"
       MYSQL_PASSWORD: "password"
       MYSQL_ROOT_PASSWORD: "password"
+
   api:
     build:
       context: .
@@ -22,5 +24,10 @@ services:
       - TYPEORM_SYNCHRONIZE=true
       - JWT_SECRET=frd7qTn5HlJbWRFq9ltBGBveF2efY4IGEkgcMzEAB38jqRAaoJWLGDkKQxATeYlh
       - PUBLIC_URL=localhost:3000
+      - ELASTICH_SEARCH_CONNECTION_URL=http://search:9200
     volumes:
       - ./src:/app/src
+
+  search:
+    environment:
+      - ELASTIC_PASSWORD=password
