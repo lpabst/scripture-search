@@ -70,8 +70,9 @@ export default class User extends BaseEntity {
     const accessToken = jwt.sign(
       {
         exp: Math.floor(Date.now() / 1000) + accessTokenDuration,
-        id: this.id,
+        userId: this.id,
         email: this.email,
+        tokenType: "accessToken",
       },
       process.env.JWT_SECRET!
     );
@@ -81,10 +82,11 @@ export default class User extends BaseEntity {
   generateIdToken(): string {
     const idToken = jwt.sign(
       {
-        id: this.id,
+        userId: this.id,
         email: this.email,
         firstName: this.firstName,
         lastName: this.lastName,
+        tokenType: "idToken",
       },
       process.env.JWT_SECRET!
     );

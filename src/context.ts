@@ -1,6 +1,7 @@
 import UserRepo from "./repos/userRepo";
 import RefreshTokenRepo from "./repos/refreshTokenRepo";
 import EmailVerificationTokenRepo from "./repos/emailVerificationTokenRepo";
+import ShopRepo from "./repos/shopRepo";
 import UserService from "./services/userService";
 import AuthService from "./services/authService";
 import NotificationService from "./services/notificationService";
@@ -10,12 +11,14 @@ export class Repos {
   user: UserRepo;
   refreshToken: RefreshTokenRepo;
   emailVerificationToken: EmailVerificationTokenRepo;
+  shop: ShopRepo;
 
   constructor(ctx: Context) {
     this.ctx = ctx;
     this.user = new UserRepo(ctx);
     this.refreshToken = new RefreshTokenRepo(ctx);
     this.emailVerificationToken = new EmailVerificationTokenRepo(ctx);
+    this.shop = new ShopRepo(ctx);
   }
 }
 

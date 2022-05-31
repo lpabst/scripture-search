@@ -25,7 +25,7 @@ export function BadRequestError(msg: string = "") {
   };
 }
 
-export function UnauthenticedError(msg: string = "") {
+export function UnauthenticatedError(msg: string = "") {
   return {
     msg: msg || "Login Required",
     statusCode: 401,

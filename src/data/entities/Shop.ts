@@ -7,13 +7,14 @@ export default class Shop extends BaseEntity {
   id: string;
 
   @Column({ type: "varchar", length: 32 })
+  @Index({ unique: true })
   userId: string;
 
   @Column({ type: "varchar", length: 256 })
+  @Index({ unique: true })
   name: string;
 
   @Column({ type: "varchar", length: 2048 })
-  @Index({ unique: true })
   description: string;
 
   @Column({ type: "varchar", length: 1024, nullable: true })

@@ -1,6 +1,7 @@
 import { celebrate, Joi } from "celebrate";
 import express, { Request, Response, NextFunction } from "express";
 import validateEmailFormatInBody from "../middleware/validateEmailFormatInBody";
+import validateAccessToken from "../middleware/validateAccessToken";
 
 const userController = express.Router();
 
@@ -31,23 +32,6 @@ userController.post(
 );
 
 userController.get(
-  "/user",
-  celebrate({
-    headers: Joi.object().keys({
-      authorization: Joi.string().required(),
-    }),
-  }),
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const user = await req.ctx?.services.user.getUserById(req.userId!);
-      return res.status(200).send(user);
-    } catch (e) {
-      next(e);
-    }
-  }
-);
-
-userController.get(
   "/email/verify/:emailVerificationToken",
   celebrate({
     params: Joi.object().keys({
@@ -69,6 +53,26 @@ userController.get(
       console.log(redirectUrl);
 
       return res.status(302).redirect(redirectUrl);
+    } catch (e) {
+      next(e);
+    }
+  }
+);
+
+userController.get(
+  "/user",
+  validateAccessToken,
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const user = await req.ctx.services.user.getUserByIdOrFail(req.userId!);
+      return res.status(200).send({
+        id: user.id,
+        email: user.email,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        createdAt: user.createdAt,
+        emailVerified: user.emailVerified,
+      });
     } catch (e) {
       next(e);
     }

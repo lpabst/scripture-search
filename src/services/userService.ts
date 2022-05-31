@@ -1,7 +1,11 @@
 import { Context } from "../context";
 import { UserInfoInput } from "../types/services/UserInfoInput";
 import bcrypt from "bcrypt";
-import { ResourceConflictError } from "../middleware/errorHandler";
+import {
+  NotFoundError,
+  ResourceConflictError,
+} from "../middleware/errorHandler";
+import User from "../data/entities/User";
 
 export default class UserService {
   ctx: Context;
@@ -36,6 +40,14 @@ export default class UserService {
 
   async getUserById(id: string) {
     return this.ctx.repos.user.getUserById(id);
+  }
+
+  async getUserByIdOrFail(id: string): Promise<User> {
+    const user = await this.ctx.repos.user.getUserById(id);
+    if (!user) {
+      throw NotFoundError("User not found");
+    }
+    return user;
   }
 
   async getUserByEmail(email: string) {
