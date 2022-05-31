@@ -13,6 +13,7 @@ productController.post(
       description: Joi.string().required(),
       price: Joi.number().required(),
       weightOunces: Joi.number().required(),
+      tags: Joi.array().items(Joi.string()).max(10),
     }),
   }),
   validateAccessToken,
@@ -24,6 +25,7 @@ productController.post(
         description: req.body.description,
         price: req.body.price,
         weightOunces: req.body.weightOunces,
+        tags: req.body.tags || [],
       });
       return res.status(200).send({
         id: product.id,

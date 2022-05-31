@@ -4,4 +4,5 @@ export interface ProductInfoInput {
   description: string;
   price: string;
   weightOunces: string;
+  tags: string[];
 }

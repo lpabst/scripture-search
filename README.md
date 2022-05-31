@@ -6,9 +6,16 @@
 - dev env vars are listed in the `docker-compose.override.yml` file
 - run `docker-compose up -d` to spin things up
 
+## Elasticsearch
+
+This app uses elasticsearch for searching through products. Here are some helpful commands for the CLI, or you can use `https://elasticvue.com/`, it's free and open-source
+
+1. view index settings `curl -H 'Content-Type: application/json' -X GET http://localhost:9200/products\?pretty`
+2. get items in index `curl -H 'Content-Type: application/json' -X GET http://localhost:9200/products/_search\?pretty`
+3. search items in index that contain `house`: `curl -H 'Content-Type: application/json' -X GET http://localhost:9200/products/_search\?pretty -d '{"query":{"multi_match":{"query":"house","fields":["name","tags"]}}}'`
+
 ## TODO:
 
-- figure out how to search products as user (search by tags maybe? or elasticsearch? maybe we can have a tags table with a 1-many relationship to a product, and the user can add tags when they create the product? elasticsearch on the name and/or description might do just as well though. I'll have to think about this a bit)
 - shopping cart
 - checkout with stripe (bank account?)
   - purchase price - fee needs to be allocated in the DB to the shop's balance

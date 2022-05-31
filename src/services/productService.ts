@@ -19,13 +19,18 @@ export default class ProductService {
       );
     }
 
+    // Mysql expects tags to be a string with max length 128. Elasticsearch also expects a string
+    const tagsString = productInfo.tags.join(" ");
+
     const product = await this.ctx.repos.product.createProduct({
       ...productInfo,
       shopId: shop.id,
+      tags: tagsString,
     });
     await this.ctx.services.search.indexProduct({
       id: product.id,
       name: productInfo.name,
+      tags: tagsString,
     });
 
     return product;

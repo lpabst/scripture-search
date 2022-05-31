@@ -27,6 +27,7 @@ export default class ProductRepo {
       description: productInfo.description,
       price: productInfo.price,
       weightOunces: productInfo.weightOunces,
+      tags: productInfo.tags,
     };
     const productDbRecord = await this.repo.save(product);
     return productDbRecord;

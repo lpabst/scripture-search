@@ -18,13 +18,15 @@ export default class SearchRepo {
   }
 
   async indexProduct(product: ProductSearchData) {
+    const documentToIndex = {
+      id: product.id,
+      name: product.name,
+      tags: product.tags,
+    };
+    console.log(documentToIndex);
     await this.elasticSearchClient.index({
       index: "products",
-      document: {
-        id: product.id,
-        name: product.name,
-        tags: product.tags,
-      },
+      document: documentToIndex,
     });
   }
 

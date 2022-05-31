@@ -5,4 +5,5 @@ export interface CreateProductDTO {
   description: string;
   price: string;
   weightOunces: string;
+  tags: string;
 }
