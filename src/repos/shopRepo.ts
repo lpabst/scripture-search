@@ -17,15 +17,15 @@ export default class ShopRepo {
     this.cache = {};
   }
 
-  async createShop(shopInfo: CreateShopDTO): Promise<string> {
-    const shopId = randomId();
-    await this.repo.save({
-      id: shopId,
+  async createShop(shopInfo: CreateShopDTO): Promise<Shop> {
+    const shop = {
+      id: randomId(),
       userId: shopInfo.userId,
       name: shopInfo.name,
       description: shopInfo.description,
-    });
-    return shopId;
+    };
+    const shopDbRecord = await this.repo.save(shop);
+    return shopDbRecord;
   }
 
   async getShopById(id: string): Promise<Shop | null> {

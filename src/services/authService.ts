@@ -19,9 +19,8 @@ export default class AuthService {
     await user.validatePassword(password);
     console.log(st - Date.now());
     const jwtTokens = user.generateJwtTokens();
-    const refreshToken = await this.ctx.repos.refreshToken.createRefreshToken(
-      user.id
-    );
+    const { token: refreshToken } =
+      await this.ctx.repos.refreshToken.createRefreshToken(user.id);
     return {
       ...jwtTokens,
       refreshToken,

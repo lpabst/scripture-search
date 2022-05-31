@@ -15,19 +15,19 @@ export default class RefreshTokenRepo {
     this.cache = {};
   }
 
-  async createRefreshToken(userId: string): Promise<string> {
-    const refreshToken = randomString(32);
+  async createRefreshToken(userId: string): Promise<RefreshToken> {
+    const token = randomString(32);
     const expirationDate = new Date();
     expirationDate.setTime(expirationDate.getTime() + 60 * 60 * 1000);
 
-    await this.repo.save({
+    const refreshToken = {
       id: randomId(),
       userId,
-      token: refreshToken,
+      token,
       expires: expirationDate,
-    });
-
-    return refreshToken;
+    };
+    const refreshTokenDbRecord = await this.repo.save(refreshToken);
+    return refreshTokenDbRecord;
   }
 
   async getRefreshTokenById(id: string): Promise<RefreshToken | null> {

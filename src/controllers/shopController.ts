@@ -1,7 +1,7 @@
 import { celebrate, Joi } from "celebrate";
 import express, { Request, Response, NextFunction } from "express";
 import validateAccessToken from "../middleware/validateAccessToken";
-import { getShopUpdatesFromRequestBody } from "../utils/helpers";
+import { getShopUpdatesFromRequestBody } from "../utils/patchUpdates";
 
 const shopController = express.Router();
 
@@ -16,12 +16,17 @@ shopController.post(
   validateAccessToken,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      await req.ctx!.services.shop.createShop({
+      const shop = await req.ctx!.services.shop.createShop({
         userId: req.userId!,
         name: req.body.name,
         description: req.body.description,
       });
-      return res.sendStatus(204);
+      return res.status(200).send({
+        id: shop.id,
+        name: shop.name,
+        description: shop.description,
+        createdAt: shop.createdAt,
+      });
     } catch (e) {
       next(e);
     }

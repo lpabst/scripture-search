@@ -3,6 +3,7 @@ import User from "./entities/User";
 import RefreshToken from "./entities/RefreshToken";
 import EmailVerificationToken from "./entities/EmailVerificationToken";
 import Shop from "./entities/Shop";
+import Product from "./entities/Product";
 
 const dataSourceOptions: DataSourceOptions = {
   type: "mysql",
@@ -14,7 +15,7 @@ const dataSourceOptions: DataSourceOptions = {
   synchronize: process.env.TYPEORM_SYNCHRONIZE === "true",
   // set logging to true to see what typeorm is doing under the hood
   logging: false,
-  entities: [User, RefreshToken, EmailVerificationToken, Shop],
+  entities: [User, RefreshToken, EmailVerificationToken, Shop, Product],
   subscribers: [],
   migrations: [],
 };

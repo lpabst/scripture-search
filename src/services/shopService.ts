@@ -14,7 +14,7 @@ export default class ShopService {
     this.ctx = ctx;
   }
 
-  async createShop(shopInfo: CreateShopDTO): Promise<void> {
+  async createShop(shopInfo: CreateShopDTO): Promise<Shop> {
     const [shopNameInUse, userAlreadyHasShop] = await Promise.all([
       this.ctx.repos.shop.getShopByName(shopInfo.name),
       this.ctx.repos.shop.getShopByUserId(shopInfo.userId),
@@ -26,7 +26,8 @@ export default class ShopService {
       throw ResourceConflictError("User already has a shop");
     }
 
-    await this.ctx.repos.shop.createShop(shopInfo);
+    const shop = await this.ctx.repos.shop.createShop(shopInfo);
+    return shop;
   }
 
   async getShopById(id: string) {

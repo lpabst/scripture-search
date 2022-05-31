@@ -2,6 +2,7 @@ import express from "express";
 import userController from "./controllers/userController";
 import authController from "./controllers/authController";
 import shopController from "./controllers/shopController";
+import productController from "./controllers/productController";
 
 const router = express.Router();
 
@@ -12,5 +13,6 @@ router.get("/health", (req, res, next) => {
 router.use(userController);
 router.use(authController);
 router.use(shopController);
+router.use(productController);
 
 export default router;

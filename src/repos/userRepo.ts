@@ -17,16 +17,16 @@ export default class UserRepo {
     this.cache = {};
   }
 
-  async createUser(userInfo: CreateUserDTO): Promise<string> {
-    const userId = randomId();
-    await this.repo.save({
-      id: userId,
+  async createUser(userInfo: CreateUserDTO): Promise<User> {
+    const user = {
+      id: randomId(),
       firstName: userInfo.firstName,
       lastName: userInfo.lastName,
       email: userInfo.email,
       passwordHash: userInfo.passwordHash,
-    });
-    return userId;
+    };
+    const userDbRecord = await this.repo.save(user);
+    return userDbRecord;
   }
 
   async getUserById(id: string): Promise<User | null> {

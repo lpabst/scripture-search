@@ -15,16 +15,16 @@ export default class EmailVerificationTokenRepo {
     this.cache = {};
   }
 
-  async createEmailVerificationToken(userId: string): Promise<string> {
-    const token = randomString(64);
-
-    await this.repo.save({
+  async createEmailVerificationToken(
+    userId: string
+  ): Promise<EmailVerificationToken> {
+    const token = {
       id: randomId(),
       userId,
-      token,
-    });
-
-    return token;
+      token: randomString(64),
+    };
+    const tokenDbRecord = await this.repo.save(token);
+    return tokenDbRecord;
   }
 
   async getDbRecordForToken(

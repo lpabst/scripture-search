@@ -8,8 +8,6 @@
 
 ## TODO:
 
-- create normal account and/or shop
-- create shop for existing account
 - list products on shop
 - search products as user
 - shopping cart

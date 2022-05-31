@@ -17,15 +17,15 @@ export default class UserService {
   async createUser(userInfo: UserInfoInput): Promise<void> {
     await this.validateEmailNotInUse(userInfo.email);
     const passwordHash = await bcrypt.hash(userInfo.password!, 10);
-    const userId = await this.ctx.repos.user.createUser({
+    const user = await this.ctx.repos.user.createUser({
       firstName: userInfo.firstName,
       lastName: userInfo.lastName,
       email: userInfo.email,
       passwordHash: passwordHash,
     });
-    const emailVerificationToken =
+    const { token: emailVerificationToken } =
       await this.ctx.repos.emailVerificationToken.createEmailVerificationToken(
-        userId
+        user.id
       );
 
     await this.ctx.services.notification.sendEmailVerificationEmail(
