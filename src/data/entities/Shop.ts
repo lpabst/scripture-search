@@ -20,6 +20,9 @@ export default class Shop extends BaseEntity {
   @Column({ type: "varchar", length: 1024, nullable: true })
   imageUrl?: string;
 
+  @Column({ type: "varchar", length: 128, nullable: true })
+  websiteUrl: string;
+
   // routing numbers are always 9 digits long
   @Column({ type: "varchar", length: 16, nullable: true })
   ACHRoutingNumber: string;
@@ -27,7 +30,4 @@ export default class Shop extends BaseEntity {
   // account numbers can be up to 17 digits long
   @Column({ type: "varchar", length: 32, nullable: true })
   ACHAccountNumber: string;
-
-  @Column({ type: "varchar", length: 128, nullable: true })
-  websiteUrl: string;
 }

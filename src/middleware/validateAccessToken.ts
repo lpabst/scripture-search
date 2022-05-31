@@ -25,6 +25,10 @@ export default function validateAccessToken(
     throw UnauthenticatedError("Invalid Token Type");
   }
 
+  if (!decodedAccessToken.userId) {
+    throw UnauthenticatedError("Malformed Access Token");
+  }
+
   req.userId = decodedAccessToken.userId;
   req.accessToken = req.headers["authorization"];
   req.decodedAccessToken = decodedAccessToken;

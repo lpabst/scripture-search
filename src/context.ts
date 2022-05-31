@@ -5,6 +5,7 @@ import ShopRepo from "./repos/shopRepo";
 import UserService from "./services/userService";
 import AuthService from "./services/authService";
 import NotificationService from "./services/notificationService";
+import ShopService from "./services/shopService";
 
 export class Repos {
   ctx: Context;
@@ -27,12 +28,14 @@ export class Services {
   user: UserService;
   auth: AuthService;
   notification: NotificationService;
+  shop: ShopService;
 
   constructor(ctx: Context) {
     this.ctx = ctx;
     this.user = new UserService(ctx);
     this.auth = new AuthService(ctx);
     this.notification = new NotificationService(ctx);
+    this.shop = new ShopService(ctx);
   }
 }
 

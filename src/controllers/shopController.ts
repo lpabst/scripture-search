@@ -2,10 +2,9 @@ import { celebrate, Joi } from "celebrate";
 import express, { Request, Response, NextFunction } from "express";
 import validateAccessToken from "../middleware/validateAccessToken";
 
-const userController = express.Router();
-userController.use(validateAccessToken);
+const shopController = express.Router();
 
-userController.post(
+shopController.post(
   "/shop",
   celebrate({
     body: Joi.object().keys({
@@ -13,6 +12,7 @@ userController.post(
       description: Joi.string().required(),
     }),
   }),
+  validateAccessToken,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       await req.ctx!.services.shop.createShop({
@@ -27,16 +27,56 @@ userController.post(
   }
 );
 
-userController.get(
+// Get the signed in user's shop
+shopController.get(
   "/shop",
+  validateAccessToken,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const shop = await req.ctx.services.shop.getShopByUserId(req.userId!);
-      return res.status(200).send(shop);
+      const shop = await req.ctx.services.shop.getShopByUserIdOrFail(
+        req.userId!
+      );
+      return res.status(200).send({
+        id: shop.id,
+        name: shop.name,
+        description: shop.description,
+        imageUrl: shop.imageUrl,
+        websiteUrl: shop.websiteUrl,
+        createdAt: shop.createdAt,
+        ACHRoutingNumber: shop.ACHRoutingNumber,
+        ACHAccountNumber: shop.ACHAccountNumber,
+      });
     } catch (e) {
       next(e);
     }
   }
 );
 
-export default userController;
+// get public details about a shop (the requesting user doesn't have to be signed in)
+shopController.get(
+  "/shop/:shopId",
+  celebrate({
+    params: Joi.object().keys({
+      shopId: Joi.string().required(),
+    }),
+  }),
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const shop = await req.ctx.services.shop.getShopByIdOrFail(
+        req.params.shopId
+      );
+      return res.status(200).send({
+        id: shop.id,
+        name: shop.name,
+        description: shop.description,
+        imageUrl: shop.imageUrl,
+        websiteUrl: shop.websiteUrl,
+        createdAt: shop.createdAt,
+      });
+    } catch (e) {
+      next(e);
+    }
+  }
+);
+
+export default shopController;
