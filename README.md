@@ -17,12 +17,13 @@ This app uses elasticsearch for searching through products. Here are some helpfu
 ## TODO:
 
 - shopping cart
+  - front end and backend for guests and signed in users
 - checkout with stripe (bank account?)
   - purchase price - fee needs to be allocated in the DB to the shop's balance
   - checkout as guest or as signed in user
-- ACH to send money from our company account to the shop's account
-- end user agreement? privacy policy?
 - I need an AWS account with S3 to house listings/images (or I could use the filesystem...)
   - cleanup old listing images to save on costs...
   - max number of images (or image size) per listing? This would help stay within cost for the listing fee
+- ACH to send money from our company account to the shop's account
+- end user agreement? privacy policy?
 - host the app on EC2 or something
