@@ -3,6 +3,7 @@ import Product from "../data/entities/Product";
 import { BadRequestError, NotFoundError } from "../middleware/errorHandler";
 import { ProductInfoInput } from "../types/services/ProductInfoInput";
 import { UpdateProductDTO } from "../types/repos/UpdateProductDTO";
+import { QueryPaginationParams } from "../types/repos/QueryPaginationParams";
 
 export default class ProductService {
   ctx: Context;
@@ -53,5 +54,11 @@ export default class ProductService {
     updates: UpdateProductDTO
   ): Promise<void> {
     return this.ctx.repos.product.updateProductById(id, updates);
+  }
+
+  async getRecentProducts(
+    queryPaginationParams: QueryPaginationParams
+  ): Promise<Product[]> {
+    return this.ctx.repos.product.queryAllProducts(queryPaginationParams);
   }
 }

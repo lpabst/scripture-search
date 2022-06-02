@@ -1,6 +1,9 @@
 import { celebrate, Joi } from "celebrate";
 import express, { Request, Response, NextFunction } from "express";
 import validateAccessToken from "../middleware/validateAccessToken";
+import { OrderDir } from "../types/enums/OrderDir";
+import { ProductOrderByColumns } from "../types/enums/ProductOrderByColumns";
+import { getSqlPaginationParamsFromReqQuery } from "../utils/helpers";
 import { getProductUpdatesFromRequestBody } from "../utils/patchUpdates";
 
 const productController = express.Router();
@@ -58,11 +61,41 @@ productController.patch(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const productUpdates = getProductUpdatesFromRequestBody(req.body);
+      // TODO: permission check here
       await req.ctx.services.product.updateProductById(
         req.params.productId,
         productUpdates
       );
       return res.sendStatus(204);
+    } catch (e) {
+      next(e);
+    }
+  }
+);
+
+// get a list of the most recently created products (public info)
+productController.get(
+  "/products/recent",
+  celebrate({
+    query: Joi.object().keys({
+      limit: Joi.string(),
+      offset: Joi.string(),
+    }),
+  }),
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { limit, offset } = getSqlPaginationParamsFromReqQuery(req.query);
+      const products = await req.ctx.services.product.getRecentProducts({
+        limit,
+        offset,
+        orderBy: ProductOrderByColumns.createdAt,
+        orderDir: OrderDir.DESC,
+      });
+      return res.status(200).send({
+        limit,
+        offset,
+        data: products,
+      });
     } catch (e) {
       next(e);
     }

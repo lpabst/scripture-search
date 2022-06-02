@@ -3,7 +3,7 @@ import { AppDataSource } from "../data/dataSource";
 import Product from "../data/entities/Product";
 import { CreateProductDTO } from "../types/repos/CreateProductDTO";
 import { UpdateProductDTO } from "../types/repos/UpdateProductDTO";
-import { Repository } from "typeorm";
+import { Repository, IsNull } from "typeorm";
 import { randomId } from "../utils/randomization";
 import { QueryPaginationParams } from "../types/repos/QueryPaginationParams";
 
@@ -66,6 +66,20 @@ export default class ProductRepo {
   ): Promise<Product[]> {
     const products = await this.repo.find({
       where: { shopId },
+      order: { [orderBy]: orderDir },
+      take: limit,
+      skip: offset,
+    });
+    return products;
+  }
+
+  async queryAllProducts({
+    limit,
+    offset,
+    orderBy,
+    orderDir,
+  }: QueryPaginationParams): Promise<Product[]> {
+    const products = await this.repo.find({
       order: { [orderBy]: orderDir },
       take: limit,
       skip: offset,
