@@ -27,3 +27,5 @@ This app uses elasticsearch for searching through products. Here are some helpfu
 - ACH to send money from our company account to the shop's account
 - end user agreement? privacy policy?
 - host the app on EC2 or something
+
+- \*\*\* I just realized that beyond ACH transactions, the thing that will make this difficult is taxes and shipping! I'll have to figure out sales tax, end of year tax forms for shop owners, taxes for the platform itself, etc. Instead of doing all of that, I might just make this a shop for Bumble and Fig, and that simplifies things considerably! Then we can branch out down the road if/when it's needed

@@ -15,12 +15,11 @@ export default class AuthService {
   async login({ email, password }: LoginDTO): Promise<UserTokens> {
     const user = await this.getUserOrThrowForbiddenError(email);
     await user.throwErrorIfEmailNotVerified();
-    let st = Date.now();
     await user.validatePassword(password);
-    console.log(st - Date.now());
     const jwtTokens = user.generateJwtTokens();
     const { token: refreshToken } =
       await this.ctx.repos.refreshToken.createRefreshToken(user.id);
+
     return {
       ...jwtTokens,
       refreshToken,
