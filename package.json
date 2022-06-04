@@ -15,7 +15,8 @@
   "homepage": "https://github.com/lpabst/shop-platform#readme",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start:dev": "nodemon src/index.ts",
+    "dev": "tsc -p . --watch",
+    "start:dev": "nodemon build/index.js",
     "start": "node build/index.js",
     "build": "tsc -p ."
   },

@@ -26,7 +26,7 @@ services:
       - PUBLIC_URL=localhost:3000
       - ELASTICH_SEARCH_CONNECTION_URL=http://search:9200
     volumes:
-      - ./src:/app/src
+      - ./build:/app/build
 
   search:
     environment:

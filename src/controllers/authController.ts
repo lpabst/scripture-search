@@ -15,6 +15,11 @@ authController.post(
   validateEmailFormatInBody,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
+      const debug = true;
+      if (debug) {
+        return res.status(367).send("hi there! 10");
+      }
+
       const jwtTokens = await req.ctx?.services.auth.login({
         email: req.body.email,
         password: req.body.password,
