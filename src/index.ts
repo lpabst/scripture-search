@@ -8,8 +8,11 @@ import router from "./router";
 import addContext from "./middleware/addContext";
 import { AppDataSource } from "./data/dataSource";
 import errorHandler from "./middleware/errorHandler";
+import ensureRequiredEnvVars from "./middleware/ensureRequiredEnvVars";
 
 async function startServer() {
+  ensureRequiredEnvVars();
+
   await AppDataSource.initialize().catch((e) => {
     console.log("Error connecting to DB");
     throw e;

@@ -22,15 +22,16 @@ export default class SearchService {
       query,
       paginationParams
     );
-    const productIds = searchResults.hits.hits.map((result: any) => {
-      console.log(result);
-      return result._source.id;
-    });
-    const products = await Promise.all(
-      productIds.map((productId) =>
-        this.ctx.repos.product.getProductById(productId)
-      )
-    );
-    return products;
+    return searchResults.hits.hits.map((obj) => obj._source);
+    // const productIds = searchResults.hits.hits.map((result: any) => {
+    //   console.log(result);
+    //   return result._source.id;
+    // });
+    // const products = await Promise.all(
+    //   productIds.map((productId) =>
+    //     this.ctx.repos.product.getProductById(productId)
+    //   )
+    // );
+    // return products;
   }
 }

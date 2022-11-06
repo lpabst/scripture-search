@@ -30,10 +30,6 @@ export default class UserService {
         user.id
       );
 
-    await this.ctx.services.notification.sendEmailVerificationEmail(
-      userInfo.email
-    );
-
     // TODO: see if the sendgrid emails ever start working? If so, remove this console log
     console.log(
       `So far my sendgrid emails aren't coming through, so for now we'll have to verify it manually in the api. Here is the token: ${emailVerificationToken}`

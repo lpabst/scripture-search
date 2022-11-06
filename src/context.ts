@@ -6,7 +6,6 @@ import ProductRepo from "./repos/productRepo";
 import SearchRepo from "./repos/searchRepo";
 import UserService from "./services/userService";
 import AuthService from "./services/authService";
-import NotificationService from "./services/notificationService";
 import ShopService from "./services/shopService";
 import ProductService from "./services/productService";
 import SearchService from "./services/searchService";
@@ -35,7 +34,6 @@ export class Services {
   ctx: Context;
   user: UserService;
   auth: AuthService;
-  notification: NotificationService;
   shop: ShopService;
   product: ProductService;
   search: SearchService;
@@ -44,7 +42,6 @@ export class Services {
     this.ctx = ctx;
     this.user = new UserService(ctx);
     this.auth = new AuthService(ctx);
-    this.notification = new NotificationService(ctx);
     this.shop = new ShopService(ctx);
     this.product = new ProductService(ctx);
     this.search = new SearchService(ctx);

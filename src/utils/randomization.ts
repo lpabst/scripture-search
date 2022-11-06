@@ -8,6 +8,11 @@ function getRandomStringFromCharacters(length: number, characters: string) {
   return str;
 }
 
+export function randomWord(length: number) {
+  const characters = "abcdefghijklmnopqrstuvwxyz";
+  return getRandomStringFromCharacters(length, characters);
+}
+
 export function randomString(length: number) {
   const characters =
     "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
