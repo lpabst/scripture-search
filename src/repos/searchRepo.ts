@@ -37,6 +37,7 @@ export default class SearchRepo {
     paginationParams: ElasticsearchPaginationParams
   ) {
     console.time("search");
+    console.log(query);
     const scriptures = await this.elasticSearchClient.search({
       index: "scriptures",
       from: paginationParams.offset,
