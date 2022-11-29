@@ -1,49 +1,28 @@
-import UserRepo from "./repos/userRepo";
-import RefreshTokenRepo from "./repos/refreshTokenRepo";
-import EmailVerificationTokenRepo from "./repos/emailVerificationTokenRepo";
-import ShopRepo from "./repos/shopRepo";
-import ProductRepo from "./repos/productRepo";
+import ScriptureRepo from "./repos/scriptureRepo";
 import SearchRepo from "./repos/searchRepo";
-import UserService from "./services/userService";
-import AuthService from "./services/authService";
-import ShopService from "./services/shopService";
-import ProductService from "./services/productService";
+import ScriptureService from "./services/scriptureService";
 import SearchService from "./services/searchService";
 
 export class Repos {
   ctx: Context;
-  user: UserRepo;
-  refreshToken: RefreshTokenRepo;
-  emailVerificationToken: EmailVerificationTokenRepo;
-  shop: ShopRepo;
-  product: ProductRepo;
+  scripture: ScriptureRepo;
   search: SearchRepo;
 
   constructor(ctx: Context) {
     this.ctx = ctx;
-    this.user = new UserRepo(ctx);
-    this.refreshToken = new RefreshTokenRepo(ctx);
-    this.emailVerificationToken = new EmailVerificationTokenRepo(ctx);
-    this.shop = new ShopRepo(ctx);
-    this.product = new ProductRepo(ctx);
+    this.scripture = new ScriptureRepo(ctx);
     this.search = new SearchRepo(ctx);
   }
 }
 
 export class Services {
   ctx: Context;
-  user: UserService;
-  auth: AuthService;
-  shop: ShopService;
-  product: ProductService;
+  scripture: ScriptureService;
   search: SearchService;
 
   constructor(ctx: Context) {
     this.ctx = ctx;
-    this.user = new UserService(ctx);
-    this.auth = new AuthService(ctx);
-    this.shop = new ShopService(ctx);
-    this.product = new ProductService(ctx);
+    this.scripture = new ScriptureService(ctx);
     this.search = new SearchService(ctx);
   }
 }

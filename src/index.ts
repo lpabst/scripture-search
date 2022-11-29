@@ -27,7 +27,7 @@ async function startServer() {
   app.use(inputValidationErrors());
   app.use(errorHandler);
 
-  const PORT = process.env.PORT || 8012;
+  const PORT = process.env.PORT || 8007;
   app.listen(PORT, () => {
     console.log(`Express server is listening at ${PORT}`);
   });

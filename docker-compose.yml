@@ -2,46 +2,46 @@ version: "3.8"
 
 services:
   db:
-    container_name: elasticsearch.tutorial.db
+    container_name: scripture-search.db
     image: mysql:5.7.12
     restart: unless-stopped
     ports:
-      - "3306:3306"
+      - "3307:3306"
     expose:
-      - "3306"
+      - "3307"
     volumes:
       - "mysql-data:/var/lib/mysql"
     networks:
       - data
 
   api:
-    container_name: elasticsearch.tutorial.api
+    container_name: scripture-search.api
     restart: unless-stopped
     external_links:
       - db
     depends_on:
       - db
     ports:
-      - 8012:8012
+      - 8007:8007
     networks:
       - data
 
   search:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.2.2
-    container_name: elasticsearch.tutorial.search
+    container_name: scripture-search.search
     restart: unless-stopped
     ports:
-      - 9200:9200
+      - 9207:9200
     networks:
       - data
     volumes:
       - search_1_data:/usr/share/elasticsearch/data
     environment:
-      - cluster.name=elasticsearch.tutorial.search
-      - node.name=elasticsearch.tutorial.search.1
+      - cluster.name=scripture-search.search
+      - node.name=scripture-search.search.1
       - bootstrap.memory_lock=true
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-      - cluster.initial_master_nodes=elasticsearch.tutorial.search.1
+      - cluster.initial_master_nodes=scripture-search.search.1
       - xpack.security.enabled=false
     mem_limit: 1g
     ulimits:
