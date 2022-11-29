@@ -18,4 +18,8 @@ export default class ScriptureService {
     });
     return scripture;
   }
+
+  scanScriptures(limit = 100, offset = 0) {
+    return this.ctx.repos.scripture.scanScriptures(limit, offset);
+  }
 }

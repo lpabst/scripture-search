@@ -15,7 +15,7 @@ services:
     image: shop.api
     env_file: .env
     environment:
-      - PORT=8012
+      - PORT=8007
       - DB_PORT=3306
       - DB_USERNAME=username
       - DB_PASSWORD=password

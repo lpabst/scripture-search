@@ -8,11 +8,9 @@ import router from "./router";
 import addContext from "./middleware/addContext";
 import { AppDataSource } from "./data/dataSource";
 import errorHandler from "./middleware/errorHandler";
-import ensureRequiredEnvVars from "./middleware/ensureRequiredEnvVars";
 
 async function startServer() {
-  ensureRequiredEnvVars();
-
+  console.log("starting server");
   await AppDataSource.initialize().catch((e) => {
     console.log("Error connecting to DB");
     throw e;
@@ -28,6 +26,7 @@ async function startServer() {
   app.use(errorHandler);
 
   const PORT = process.env.PORT || 8007;
+
   app.listen(PORT, () => {
     console.log(`Express server is listening at ${PORT}`);
   });

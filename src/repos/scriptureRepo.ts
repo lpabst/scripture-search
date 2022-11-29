@@ -28,4 +28,10 @@ export default class ScriptureRepo {
     const scriptureDbRecord = await this.repo.save(scripture);
     return scriptureDbRecord;
   }
+
+  scanScriptures(limit = 100, offset = 0) {
+    return this.repo.query(
+      `SELECT * from scripture order by id asc LIMIT ${limit} OFFSET ${offset}`
+    );
+  }
 }

@@ -17,7 +17,7 @@ searchController.get(
     try {
       const searchQuery = req.query.q as string;
       const paginationParams = getEsPaginationParamsFromReqQuery(req.query);
-      const products = await req.ctx.services.search.searchProducts(
+      const products = await req.ctx.services.search.searchScriptures(
         searchQuery,
         paginationParams
       );

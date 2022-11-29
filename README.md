@@ -16,3 +16,8 @@ I'm going to try putting millions of items in some indexes and see what the benc
 - exec into the container with `docker exec -it <containerName> /bin/sh`, for example: `docker exec -it scripture-search.api /bin/sh`
 - navigate to the scripts dir with `cd /app/build/scripts`
 - use node to run the desired script, for example `node bulkCreateESRecords.js`
+- NOTE: scripts will have to initialize the data source since that happens during server setup in index.ts
+
+## Schema Migrations
+
+For now, I am using TypeORM synchronize set to true, so updates to the DB happens automatically as I update my entities

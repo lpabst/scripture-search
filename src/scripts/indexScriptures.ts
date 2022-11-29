@@ -1,41 +1,71 @@
 import { Context } from "../context";
 import axios from "axios";
+import { AppDataSource } from "../data/dataSource";
 
-const context = new Context();
-
-const scriptureBookChapterCount = {
-  ot: {
-    gen: 50,
-    ex: 40,
-    lev: 27,
-    num: 36,
-    deut: 34,
-    josh: 24,
-    judg: 21,
-    ruth: 4,
-    "1-sam": 31,
-    "2-sam": 24,
-    "1-kgs": 22,
-    "2-kgs": 25,
-    "1-chr": 29,
-    "2-chr": 36,
-    ezra: 10,
-    neh: 13,
-    todo: "add more",
-  },
-};
+let context: Context;
 
 async function indexScriptures() {
-  console.log("running");
-  await indexBible();
+  console.log("script running");
+
+  await AppDataSource.initialize().catch((e) => {
+    console.log("Error connecting to DB");
+    throw e;
+  });
+  console.log("DB connected");
+
+  context = new Context();
+  // await getBibleVersesIntoSqlDb();
+
+  console.log("start indexing");
+  await indexAllVersesFromSqlDb();
   console.log(`Done`);
+  process.exit(0);
 }
 
-async function indexBible() {
+async function getBibleVersesIntoSqlDb() {
   const result = await axios.get(
     "https://raw.githubusercontent.com/renyuzhuo/KJV-JSON/master/kjv.json"
   );
-  console.log(Array.isArray(result.data));
+  await Promise.all(
+    result.data.map(async (scripture: any) => {
+      const bookChapterAndVerse = scripture.name.split(" ");
+      const chapterAndVerse = bookChapterAndVerse.pop();
+      const book = bookChapterAndVerse.join(" ");
+      const [chapter, verse] = chapterAndVerse.split(":");
+      try {
+        return await context.services.scripture.createScripture({
+          book,
+          chapter: Number(chapter),
+          verse: Number(verse),
+          text: scripture.verse,
+        });
+      } catch (e) {
+        console.log("Error inserting scripture into sql db");
+        console.log(scripture);
+        console.log(book, chapter, verse);
+        console.log((e as any).message);
+      }
+    })
+  );
+}
+
+async function indexAllVersesFromSqlDb() {
+  let indexing = true;
+  const batchSize = 1000;
+  let offset = 0;
+  while (indexing) {
+    console.log(`Query scriptures limit ${batchSize}, offset ${offset}`);
+    const batchOfScriptures = await context.services.scripture.scanScriptures(
+      batchSize,
+      offset
+    );
+    console.log(`Found ${batchOfScriptures.length} scriptures to index`);
+    await context.repos.search.bulkIndexScriptures(batchOfScriptures);
+    offset += batchSize;
+    if (batchOfScriptures.length < 1000) {
+      indexing = false;
+    }
+  }
 }
 
 indexScriptures();

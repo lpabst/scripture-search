@@ -2,7 +2,7 @@
 
 import { Client } from "@elastic/elasticsearch";
 import { Context } from "../context";
-import { ProductSearchData } from "../types/services/ProductSearchData";
+import { ScriptureSearchData } from "../types/services/ScriptureSearchData";
 import { ElasticsearchPaginationParams } from "../types/repos/ElasticsearchPaginationParams";
 
 // Interacts with elasticsearch rather than mysql
@@ -17,26 +17,28 @@ export default class SearchRepo {
     });
   }
 
-  async indexProduct(product: ProductSearchData) {
+  async indexScripture(scripture: ScriptureSearchData) {
     const documentToIndex = {
-      id: product.id,
-      name: product.name,
-      tags: product.tags,
+      id: scripture.id,
+      book: scripture.book,
+      chapter: scripture.chapter,
+      verse: scripture.verse,
+      text: scripture.text,
+      tags: scripture.tags,
     };
-    console.log(documentToIndex);
     await this.elasticSearchClient.index({
-      index: "products",
+      index: "scriptures",
       document: documentToIndex,
     });
   }
 
-  async searchProducts(
+  async searchScriptures(
     query: string,
     paginationParams: ElasticsearchPaginationParams
   ) {
     console.time("search");
-    const products = await this.elasticSearchClient.search({
-      index: "products",
+    const scriptures = await this.elasticSearchClient.search({
+      index: "scriptures",
       from: paginationParams.offset,
       size: paginationParams.limit,
       query: {
@@ -56,19 +58,19 @@ export default class SearchRepo {
         // },
         multi_match: {
           query: query,
-          fields: ["name", "tags"],
+          fields: ["id", "book", "text", "tags"],
         },
       },
     });
     console.timeEnd("search");
     console.log(await this.totalIndexCount());
-    return products;
+    return scriptures;
   }
 
   // https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/bulk_examples.html
-  async bulkIndexProducts(products: ProductSearchData[]) {
-    const operations = products.flatMap((doc) => [
-      { index: { _index: "products" } },
+  async bulkIndexScriptures(scriptures: ScriptureSearchData[]) {
+    const operations = scriptures.flatMap((doc) => [
+      { index: { _index: "scriptures" } },
       doc,
     ]);
     await this.elasticSearchClient.bulk({
@@ -78,7 +80,7 @@ export default class SearchRepo {
   }
 
   // I'm not using this anywhere right now, but it's cool to have
-  async totalIndexCount(indexName: string = "products") {
+  async totalIndexCount(indexName: string = "scriptures") {
     return this.elasticSearchClient.count({
       index: indexName,
     });

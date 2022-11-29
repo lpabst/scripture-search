@@ -7,10 +7,10 @@ export default class Scripture extends BaseEntity {
   id: string;
 
   @Column({ type: "varchar", length: 32 })
-  Book: string;
+  book: string;
 
   @Column({ type: "int" })
-  Chapter: number;
+  chapter: number;
 
   @Column({ type: "int" })
   verse: number;

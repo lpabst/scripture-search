@@ -1,6 +1,6 @@
 import { Context } from "../context";
 import { ElasticsearchPaginationParams } from "../types/repos/ElasticsearchPaginationParams";
-import { ProductSearchData } from "../types/services/ProductSearchData";
+import { ScriptureSearchData } from "../types/services/ScriptureSearchData";
 
 // knows how to interact with the elasticsearch docker container
 export default class SearchService {
@@ -10,28 +10,18 @@ export default class SearchService {
     this.ctx = ctx;
   }
 
-  async indexProduct(product: ProductSearchData) {
-    await this.ctx.repos.search.indexProduct(product);
+  async indexScripture(scripture: ScriptureSearchData) {
+    await this.ctx.repos.search.indexScripture(scripture);
   }
 
-  async searchProducts(
+  async searchScriptures(
     query: string,
     paginationParams: ElasticsearchPaginationParams
   ) {
-    const searchResults = await this.ctx.repos.search.searchProducts(
+    const searchResults = await this.ctx.repos.search.searchScriptures(
       query,
       paginationParams
     );
-    return searchResults.hits.hits.map((obj) => obj._source);
-    // const productIds = searchResults.hits.hits.map((result: any) => {
-    //   console.log(result);
-    //   return result._source.id;
-    // });
-    // const products = await Promise.all(
-    //   productIds.map((productId) =>
-    //     this.ctx.repos.product.getProductById(productId)
-    //   )
-    // );
-    // return products;
+    return searchResults.hits.hits.map((obj: any) => obj._source);
   }
 }

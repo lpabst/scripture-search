@@ -15,5 +15,6 @@ const dataSourceOptions: DataSourceOptions = {
   subscribers: [],
   migrations: [],
 };
+console.log(dataSourceOptions);
 
 export const AppDataSource = new DataSource(dataSourceOptions);
