@@ -22,6 +22,9 @@ export default class SearchService {
       query,
       paginationParams
     );
-    return searchResults.hits.hits.map((obj: any) => obj._source);
+    return searchResults.hits.hits.map((obj: any) => ({
+      score: obj._score,
+      ...obj._source,
+    }));
   }
 }

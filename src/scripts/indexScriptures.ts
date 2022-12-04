@@ -24,7 +24,7 @@ async function indexScriptures() {
     node: process.env.ELASTICH_SEARCH_CONNECTION_URL,
   });
   // await insertBibleVersesIntoSqlDb();
-  // await setupNewScriptureIndex();
+  await setupNewScriptureIndex();
 
   console.log("start indexing");
   await indexAllVersesFromSqlDb();
@@ -75,7 +75,9 @@ async function setupNewScriptureIndex() {
     });
     await elasticSearchClient.indices.refresh({ index: "scriptures" });
   } catch (e) {}
+  return;
 
+  // the stuff below here didn't seem to be helping anything
   const indexSettings: IndicesPutSettingsRequest = {
     index: "scriptures",
     settings: {

@@ -4,6 +4,8 @@ import { Client } from "@elastic/elasticsearch";
 import { Context } from "../context";
 import { ScriptureSearchData } from "../types/services/ScriptureSearchData";
 import { ElasticsearchPaginationParams } from "../types/repos/ElasticsearchPaginationParams";
+import path from "path";
+import fs from "fs";
 
 // Interacts with elasticsearch rather than mysql
 export default class SearchRepo {
@@ -38,28 +40,59 @@ export default class SearchRepo {
   ) {
     console.time("search");
     console.log(query);
+    console.log(
+      JSON.stringify(
+        query.split(" ").map((word) => ({
+          span_multi: {
+            match: {
+              fuzzy: {
+                text: {
+                  fuzziness: 2,
+                  value: word,
+                },
+              },
+            },
+          },
+        }))
+      )
+    );
+    // https://github.com/kkevilus/bible_elasticsearch
     const scriptures = await this.elasticSearchClient.search({
       index: "scriptures",
       from: paginationParams.offset,
       size: paginationParams.limit,
+      // The should array allows multiple searches to be combined into a single set of paginated results!
+      // span near allows me to fuzzy search each word in the query, as well as checking that they show up in the right order. This allows super relevant results to rise right to the top of the results with huge relevance scores.
+      // after that we also do a query_string search so that any verses that include any of the words in the query will also show up in the results, just not as high in the relevance sorting as ones with words in the proper order.
+      // We could theoretically add a 3rd search to the should array that fuzzy searches the words individually, but I'm not sure if that would cause more harm than good since they might show up above the query_string results if they have higher relevance scores
       query: {
-        // bool: {
-        //   should: [
-        //     {
-        //       fuzzy: {
-        //         name: query,
-        //       },
-        //     },
-        //     {
-        //       match: {
-        //         tags: query,
-        //       },
-        //     },
-        //   ],
-        // },
-        multi_match: {
-          query: query,
-          fields: ["id", "book", "text", "tags"],
+        bool: {
+          should: [
+            {
+              span_near: {
+                clauses: query.split(" ").map((word) => ({
+                  span_multi: {
+                    match: {
+                      fuzzy: {
+                        text: {
+                          fuzziness: 2,
+                          value: word,
+                        },
+                      },
+                    },
+                  },
+                })),
+                slop: 1,
+                in_order: true,
+              },
+            },
+            {
+              query_string: {
+                query,
+                fields: ["text"],
+              },
+            },
+          ],
         },
       },
     });
